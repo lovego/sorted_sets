@@ -20,9 +20,8 @@ func Save(slice, target reflect.Value, fields ...string) reflect.Value {
 	if Compare(slice.Index(i), target, fields...) == 0 {
 		slice.Index(i).Set(target)
 		return slice
-	} else {
-		return Insert(slice, i, target)
 	}
+	return Insert(slice, i, target)
 }
 
 func Insert(s reflect.Value, i int, v reflect.Value) reflect.Value {

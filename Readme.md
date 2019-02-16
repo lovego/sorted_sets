@@ -1,5 +1,5 @@
 # sorted\_sets
-sorted sets data structure in golang.
+sorted sets for golang.
 
 [![Build Status](https://travis-ci.org/lovego/sorted_sets.svg?branch=master)](https://travis-ci.org/lovego/sorted_sets)
 [![Coverage Status](https://img.shields.io/coveralls/github/lovego/sorted_sets/master.svg)](https://coveralls.io/github/lovego/sorted_sets?branch=master)

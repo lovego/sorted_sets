@@ -49,7 +49,7 @@ type T struct {
 var a1, a2 = T{"a", 1}, T{"a", 2}
 var b1, b2 = T{"b", 1}, T{"b", 2}
 
-func ExampleCompare_1() {
+func ExampleCompare_case1() {
 	for _, t := range []struct {
 		a, b T
 	}{
@@ -73,7 +73,7 @@ func ExampleCompare_1() {
 	// 1
 }
 
-func ExampleCompare_2() {
+func ExampleCompare_case2() {
 	for _, t := range []struct {
 		a, b T
 	}{
