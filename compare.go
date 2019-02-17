@@ -6,6 +6,30 @@ import (
 )
 
 func Compare(a, b reflect.Value, fields ...string) int {
+	var aIsNil, bIsNil bool
+	for a.Kind() == reflect.Ptr || a.Kind() == reflect.Interface {
+		if a.IsNil() {
+			aIsNil = true
+			break
+		}
+		a = a.Elem()
+	}
+	for b.Kind() == reflect.Ptr || b.Kind() == reflect.Interface {
+		if b.IsNil() {
+			bIsNil = true
+			break
+		}
+		b = b.Elem()
+	}
+	switch {
+	case aIsNil && !bIsNil:
+		return -1
+	case !aIsNil && bIsNil:
+		return 1
+	case aIsNil && bIsNil:
+		return 0
+	}
+
 	switch a.Kind() {
 	case reflect.Int, reflect.Int64, reflect.Int32, reflect.Int16, reflect.Int8:
 		return int(a.Int() - b.Int())

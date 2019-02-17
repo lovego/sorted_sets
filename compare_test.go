@@ -144,3 +144,28 @@ func ExampleCompare_stringField() {
 	// 1
 	// 1
 }
+
+func ExampleCompare_nil() {
+	var p1, p2 *int
+	fmt.Println(Compare(reflect.ValueOf(p1), reflect.ValueOf(p2)))
+	fmt.Println(Compare(reflect.ValueOf(p1), reflect.ValueOf(10)))
+	fmt.Println(Compare(reflect.ValueOf(10), reflect.ValueOf(p2)))
+	var i = 3
+	p1 = &i
+	fmt.Println(Compare(reflect.ValueOf(p1), reflect.ValueOf(p2)))
+	fmt.Println(Compare(reflect.ValueOf(p2), reflect.ValueOf(p1)))
+	fmt.Println(Compare(reflect.ValueOf(p1), reflect.ValueOf(2)))
+	fmt.Println(Compare(reflect.ValueOf(p1), reflect.ValueOf(3)))
+	fmt.Println(Compare(reflect.ValueOf(p1), reflect.ValueOf(4)))
+
+	// Output:
+	// 0
+	// -1
+	// 1
+	// 1
+	// -1
+	// 1
+	// 0
+	// -1
+
+}
