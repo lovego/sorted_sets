@@ -6,8 +6,11 @@ import (
 )
 
 func Save(slice, target reflect.Value, fields ...string) reflect.Value {
-	if !slice.IsValid() || slice.Len() == 0 {
-		return reflect.Append(reflect.MakeSlice(slice.Type(), 0, 1), target)
+	if !slice.IsValid() {
+		return reflect.Append(reflect.MakeSlice(reflect.SliceOf(target.Type()), 0, 1), target)
+	}
+	if slice.Len() == 0 {
+		return reflect.Append(slice, target)
 	}
 
 	i := sort.Search(slice.Len(), func(i int) bool {

@@ -57,3 +57,12 @@ func ExampleSave_stringField() {
 	// Output:
 	// [{1 name1} {2 name2} {3 name3} {4 name4} {5 name5} {6 name6} {7 name7} {8 name8} {9 name9}]
 }
+
+func ExampleSave_invalidSlice() {
+	var s = reflect.Value{}
+	for _, v := range []int64{3, 6, 2, 8, 9, 1, 5, 2, 4, 6, 7} {
+		s = Save(s, reflect.ValueOf(v))
+	}
+	fmt.Println(s)
+	// Output: [1 2 3 4 5 6 7 8 9]
+}
