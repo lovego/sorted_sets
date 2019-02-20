@@ -5,11 +5,16 @@ go:
   - "1.10"
   - "1.11"
 install:
-  - go get -t .
-  - go get github.com/mattn/goveralls
+  - go get -t ./...
 script:
-  - go test -v -covermode=count -coverprofile=coverage.out ./...
-  - $HOME/gopath/bin/goveralls -coverprofile=coverage.out -service=travis-ci
+  - |
+    if [[ $(go version) == *1.11* ]]; then
+      go test -v -covermode=count -coverprofile=coverage.out ./...
+      go get github.com/mattn/goveralls
+      $HOME/gopath/bin/goveralls -coverprofile=coverage.out -service=travis-ci
+    else
+      go test -v ./...
+    fi
 notifications:
   email:
     applejava@qq.com
