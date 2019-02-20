@@ -5,7 +5,7 @@ import (
 	"reflect"
 )
 
-func Compare(a, b reflect.Value, fields ...string) int {
+func CompareValue(a, b reflect.Value, fields ...string) int {
 	var aIsNil, bIsNil bool
 	for a.Kind() == reflect.Ptr || a.Kind() == reflect.Interface {
 		if a.IsNil() {
@@ -49,7 +49,7 @@ func Compare(a, b reflect.Value, fields ...string) int {
 			log.Panic("empty fields for struct value")
 		}
 		for _, name := range fields {
-			if r := Compare(a.FieldByName(name), b.FieldByName(name)); r != 0 {
+			if r := CompareValue(a.FieldByName(name), b.FieldByName(name)); r != 0 {
 				return r
 			}
 		}

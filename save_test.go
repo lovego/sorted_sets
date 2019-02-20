@@ -8,7 +8,7 @@ import (
 func ExampleSave_int64() {
 	var s = reflect.ValueOf([]int64{})
 	for _, v := range []int64{3, 6, 2, 8, 9, 1, 5, 2, 4, 6, 7} {
-		s = Save(s, reflect.ValueOf(v))
+		s = SaveValue(s, reflect.ValueOf(v))
 	}
 	fmt.Println(s)
 	// Output: [1 2 3 4 5 6 7 8 9]
@@ -17,7 +17,7 @@ func ExampleSave_int64() {
 func ExampleSave_string() {
 	var s = reflect.ValueOf([]string{})
 	for _, v := range []string{"aa", "ba", "ab", "cc", "a", "ab", "b"} {
-		s = Save(s, reflect.ValueOf(v))
+		s = SaveValue(s, reflect.ValueOf(v))
 	}
 	fmt.Println(s)
 	// Output: [a aa ab b ba cc]
@@ -36,7 +36,7 @@ func ExampleSave_intField() {
 		{Id: 2, Name: `name-2`}, {Id: 9, Name: `name9`}, {Id: 1, Name: `name1`},
 		{Id: 2, Name: `name2`}, {Id: 8, Name: `name8`}, {Id: 6, Name: `name6`},
 	} {
-		s = Save(s, reflect.ValueOf(v), `Id`)
+		s = SaveValue(s, reflect.ValueOf(v), `Id`)
 	}
 	fmt.Println(s)
 	// Output:
@@ -51,7 +51,7 @@ func ExampleSave_stringField() {
 		{Id: 22, Name: `name2`}, {Id: 9, Name: `name9`}, {Id: 1, Name: `name1`},
 		{Id: 2, Name: `name2`}, {Id: 8, Name: `name8`}, {Id: 6, Name: `name6`},
 	} {
-		s = Save(s, reflect.ValueOf(v), `Name`)
+		s = SaveValue(s, reflect.ValueOf(v), `Name`)
 	}
 	fmt.Println(s)
 	// Output:
@@ -61,7 +61,7 @@ func ExampleSave_stringField() {
 func ExampleSave_invalidSlice() {
 	var s = reflect.Value{}
 	for _, v := range []int64{3, 6, 2, 8, 9, 1, 5, 2, 4, 6, 7} {
-		s = Save(s, reflect.ValueOf(v))
+		s = SaveValue(s, reflect.ValueOf(v))
 	}
 	fmt.Println(s)
 	// Output: [1 2 3 4 5 6 7 8 9]
