@@ -19,6 +19,20 @@ func ExampleCompareValue_int() {
 	// 1
 }
 
+func ExampleCompareValue_uint() {
+	for _, t := range []struct {
+		a, b uint
+	}{
+		{7, 8}, {7, 7}, {8, 7},
+	} {
+		fmt.Println(CompareValue(reflect.ValueOf(t.a), reflect.ValueOf(t.b)))
+	}
+	// Output:
+	// -1
+	// 0
+	// 1
+}
+
 func ExampleCompareValue_string() {
 	for _, t := range []struct {
 		a, b string
@@ -143,6 +157,25 @@ func ExampleCompareValue_stringField() {
 	// 1
 	// 1
 	// 1
+}
+
+func ExampleCompareValue_noFields() {
+	defer func() {
+		fmt.Println(recover())
+	}()
+	fmt.Println(CompareValue(reflect.ValueOf(struct{}{}), reflect.ValueOf(struct{}{})))
+	// Output:
+	// empty fields for struct value
+}
+
+func ExampleCompareValue_unsupportedType() {
+	defer func() {
+		fmt.Println(recover())
+	}()
+	fmt.Println(CompareValue(reflect.ValueOf(false), reflect.ValueOf(true)))
+
+	// Output:
+	// unsupported value: bool(false)
 }
 
 func ExampleCompareValue_nil() {
