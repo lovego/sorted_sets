@@ -5,7 +5,7 @@ import (
 	"sort"
 )
 
-func RemoveInt64(slice []int64, target int64, fields ...string) []int64 {
+func RemoveInt64(slice []int64, target int64) []int64 {
 	if len(slice) == 0 {
 		return slice
 	}
@@ -20,7 +20,7 @@ func RemoveInt64(slice []int64, target int64, fields ...string) []int64 {
 	return slice
 }
 
-func RemoveString(slice []string, target string, fields ...string) []string {
+func RemoveString(slice []string, target string) []string {
 	if len(slice) == 0 {
 		return slice
 	}
