@@ -5,13 +5,9 @@ import (
 	"sort"
 )
 
-func RemoveInt64(slicePointer *[]int64, target int64) {
-	if slicePointer == nil {
-		return
-	}
-	slice := *slicePointer
+func RemoveInt64(slice []int64, target int64) []int64 {
 	if len(slice) == 0 {
-		return
+		return slice
 	}
 
 	i := sort.Search(len(slice), func(i int) bool {
@@ -19,17 +15,14 @@ func RemoveInt64(slicePointer *[]int64, target int64) {
 	})
 
 	if i < len(slice) && slice[i] == target {
-		*slicePointer = append(slice[:i], slice[i+1:]...)
+		return append(slice[:i], slice[i+1:]...)
 	}
+	return slice
 }
 
-func RemoveString(slicePointer *[]string, target string) {
-	if slicePointer == nil {
-		return
-	}
-	slice := *slicePointer
+func RemoveString(slice []string, target string) []string {
 	if len(slice) == 0 {
-		return
+		return slice
 	}
 
 	i := sort.Search(len(slice), func(i int) bool {
@@ -37,14 +30,14 @@ func RemoveString(slicePointer *[]string, target string) {
 	})
 
 	if i < len(slice) && slice[i] == target {
-		*slicePointer = append(slice[:i], slice[i+1:]...)
+		return append(slice[:i], slice[i+1:]...)
 	}
+	return slice
 }
 
-// slice must be settlable or invalid
-func RemoveValue(slice, target reflect.Value, fields ...string) {
+func RemoveValue(slice, target reflect.Value, fields ...string) reflect.Value {
 	if !slice.IsValid() || slice.Len() == 0 {
-		return
+		return slice
 	}
 
 	i := sort.Search(slice.Len(), func(i int) bool {
@@ -52,7 +45,7 @@ func RemoveValue(slice, target reflect.Value, fields ...string) {
 	})
 
 	if i < slice.Len() && CompareValue(slice.Index(i), target, fields...) == 0 {
-		slice.Set(reflect.AppendSlice(slice.Slice(0, i), slice.Slice(i+1, slice.Len())))
+		return reflect.AppendSlice(slice.Slice(0, i), slice.Slice(i+1, slice.Len()))
 	}
-	return
+	return slice
 }
