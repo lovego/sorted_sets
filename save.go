@@ -7,9 +7,11 @@ import (
 	slicePkg "github.com/lovego/slice"
 )
 
-func SaveInt64(slice []int64, target int64) []int64 {
+func SaveInt64(slicePointer *[]int64, target int64) {
+	slice := *slicePointer
 	if len(slice) == 0 {
-		return []int64{target}
+		*slicePointer = []int64{target}
+		return
 	}
 
 	i := sort.Search(len(slice), func(i int) bool {
@@ -17,17 +19,20 @@ func SaveInt64(slice []int64, target int64) []int64 {
 	})
 
 	if i >= len(slice) { // not found
-		return append(slice, target)
+		*slicePointer = append(slice, target)
+		return
 	}
 	if slice[i] == target {
-		return slice
+		return
 	}
-	return slicePkg.InsertInt64(slice, i, target)
+	slicePkg.InsertInt64(slicePointer, i, target)
 }
 
-func SaveString(slice []string, target string) []string {
+func SaveString(slicePointer *[]string, target string) {
+	slice := *slicePointer
 	if len(slice) == 0 {
-		return []string{target}
+		*slicePointer = []string{target}
+		return
 	}
 
 	i := sort.Search(len(slice), func(i int) bool {
@@ -35,20 +40,20 @@ func SaveString(slice []string, target string) []string {
 	})
 
 	if i >= len(slice) { // not found
-		return append(slice, target)
+		*slicePointer = append(slice, target)
+		return
 	}
 	if slice[i] == target {
-		return slice
+		return
 	}
-	return slicePkg.InsertString(slice, i, target)
+	slicePkg.InsertString(slicePointer, i, target)
 }
 
-func SaveValue(slice, target reflect.Value, fields ...string) reflect.Value {
-	if !slice.IsValid() {
-		return reflect.Append(reflect.MakeSlice(reflect.SliceOf(target.Type()), 0, 1), target)
-	}
+// slice must be settable
+func SaveValue(slice, target reflect.Value, fields ...string) {
 	if slice.Len() == 0 {
-		return reflect.Append(slice, target)
+		slice.Set(reflect.Append(slice, target))
+		return
 	}
 
 	i := sort.Search(slice.Len(), func(i int) bool {
@@ -56,11 +61,12 @@ func SaveValue(slice, target reflect.Value, fields ...string) reflect.Value {
 	})
 
 	if i >= slice.Len() { // not found
-		return reflect.Append(slice, target)
+		slice.Set(reflect.Append(slice, target))
+		return
 	}
 	if CompareValue(slice.Index(i), target, fields...) == 0 {
 		slice.Index(i).Set(target)
-		return slice
+		return
 	}
-	return slicePkg.InsertValue(slice, i, target)
+	slicePkg.InsertValue(slice, i, target)
 }
